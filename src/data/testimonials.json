@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "name": "Sarah J.",
+        "role": "Marketing Executive",
+        "quote": "Zenafs has completely transformed my approach to work-life balance. The sessions are insightful and the platform is so easy to use."
+    },
+    {
+        "id": "2",
+        "name": "Michael T.",
+        "role": "Software Engineer",
+        "quote": "I was skeptical about online therapy, but the therapist matched with me was perfect. The video sessions feel just as personal as in-person."
+    },
+    {
+        "id": "3",
+        "name": "Emily R.",
+        "role": "Teacher",
+        "quote": "The journaling feature and mood tracking on the dashboard help me stay mindful between sessions. Highly recommend!"
+    }
+]

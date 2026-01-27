@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Individual Therapy",
+    "description": "One-on-one sessions tailored to your unique needs, helping you navigate life's challenges with professional guidance.",
+    "price": "£85",
+    "duration": "50 mins"
+  },
+  {
+    "id": "2",
+    "title": "Couples Counseling",
+    "description": "Strengthen your relationship, improve communication, and resolve conflicts in a safe and supportive environment.",
+    "price": "£120",
+    "duration": "60 mins"
+  },
+  {
+    "id": "3",
+    "title": "Life Coaching",
+    "description": "Goal-oriented sessions designed to help you unlock your potential, clarify your vision, and achieve personal success.",
+    "price": "£95",
+    "duration": "50 mins"
+  },
+  {
+    "id": "4",
+    "title": "Group Workshops",
+    "description": "Interactive sessions focused on specific topics like stress management, mindfulness, and personal growth.",
+    "price": "£45",
+    "duration": "90 mins"
+  }
+]
