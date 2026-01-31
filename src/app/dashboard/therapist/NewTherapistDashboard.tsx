@@ -1,6 +1,8 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { getProfile, getTherapistClients, getTherapistAppointments } from "@/lib/database/queries";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import {
   Calendar,
   Users,
@@ -16,7 +18,75 @@ import { TheraBento, TheraCard, TheraCardHeader } from "@/components/dashboard/b
 import TheraKpiCard from "@/components/dashboard/bespoke/TheraKpiCard";
 import MiniCalendar from "@/components/dashboard/bespoke/MiniCalendar";
 
-export default async function NewTherapistDashboard() {
+export default function NewTherapistDashboard() {
+  const router = useRouter();
+  const [profile, setProfile] = useState<any>(null);
+  const [clients, setClients] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      // Fetch profile
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (!profileData || profileData.role !== "therapist") {
+        router.push("/dashboard");
+        return;
+      }
+
+      setProfile(profileData);
+
+      // Fetch clients
+      const { data: clientsData } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("therapist_id", user.id);
+
+      setClients(clientsData || []);
+
+      // Fetch appointments
+      const { data: appointmentsData } = await supabase
+        .from("appointments")
+        .select("*")
+        .eq("therapist_id", user.id)
+        .order("start_time", { ascending: true });
+
+      setAppointments(appointmentsData || []);
+      setLoading(false);
+    }
+
+    loadData();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="p-6 bg-gradient-dashboard min-h-screen">
+        <div className="animate-pulse space-y-6">
+          <div className="h-8 bg-slate-200 rounded w-1/4" />
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-32 bg-slate-200 rounded-2xl" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const now = new Date();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
