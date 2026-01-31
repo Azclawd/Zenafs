@@ -1,12 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile, getTherapistClients, getTherapistAppointments } from "@/lib/database/queries";
-import Link from "next/link";
-import { Calendar, Users, TrendingUp, AlertCircle } from "lucide-react";
-import TheraKpiCard from "@/components/dashboard/therapist/TheraKpiCard";
-import TheraScheduleCard from "@/components/dashboard/therapist/TheraScheduleCard";
 import TheraRightRail from "@/components/dashboard/therapist/TheraRightRail";
-import TheraUpcomingTable from "@/components/dashboard/therapist/TheraUpcomingTable";
+import AnimatedDashboardContent from "@/components/dashboard/therapist/AnimatedDashboardContent";
 
 export default async function TherapistDashboard() {
     const supabase = await createClient();
@@ -49,23 +45,18 @@ export default async function TherapistDashboard() {
                     <p className="mt-1 text-sm text-slate-600">Your practice dashboard</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <TheraKpiCard label="Active clients" value={clients.length} helper="Under your care" icon={Users} tone="blue" />
-                    <TheraKpiCard label="Today" value={todayAppointments.length} helper="Sessions scheduled" icon={Calendar} tone="teal" />
-                    <TheraKpiCard label="Pending" value={pendingAppointments.length} helper="Awaiting confirmation" icon={AlertCircle} tone="amber" />
-                    <TheraKpiCard label="This week" value={upcomingAppointments.filter(apt => {
+                <AnimatedDashboardContent
+                    clientsCount={clients.length}
+                    todayCount={todayAppointments.length}
+                    pendingCount={pendingAppointments.length}
+                    weekCount={upcomingAppointments.filter(apt => {
                         const aptDate = new Date(apt.start_time);
                         const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
                         return aptDate <= weekFromNow;
-                    }).length} helper="Upcoming sessions" icon={TrendingUp} tone="slate" />
-                </div>
-
-                <TheraScheduleCard
-                    viewAllHref="/dashboard/therapist/appointments"
-                    items={todayAppointments as any}
+                    }).length}
+                    todayAppointments={todayAppointments as any}
+                    upcomingAppointments={upcomingAppointments as any}
                 />
-
-                <TheraUpcomingTable appointments={upcomingAppointments as any} limit={7} />
             </div>
 
             {/* Right rail */}
