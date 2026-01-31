@@ -110,12 +110,7 @@
   --foreground: var(--color-stone-900);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-stone-950);
-    --foreground: var(--color-stone-50);
-  }
-}
+/* Light theme only (Az preference). Dark theme can be added later intentionally. */
 
 body {
   color: var(--foreground);
