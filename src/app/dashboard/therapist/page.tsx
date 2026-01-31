@@ -6,6 +6,7 @@ import { Calendar, Users, TrendingUp, AlertCircle } from "lucide-react";
 import TheraKpiCard from "@/components/dashboard/therapist/TheraKpiCard";
 import TheraScheduleCard from "@/components/dashboard/therapist/TheraScheduleCard";
 import TheraRightRail from "@/components/dashboard/therapist/TheraRightRail";
+import TheraUpcomingTable from "@/components/dashboard/therapist/TheraUpcomingTable";
 
 export default async function TherapistDashboard() {
     const supabase = await createClient();
@@ -64,11 +65,7 @@ export default async function TherapistDashboard() {
                     items={todayAppointments as any}
                 />
 
-                {/* Placeholder for next bento: Upcoming sessions list/table */}
-                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-5">
-                    <div className="text-base font-semibold text-slate-900">Upcoming sessions</div>
-                    <div className="mt-2 text-sm text-slate-600">We’ll add the TheraDash-style table next.</div>
-                </div>
+                <TheraUpcomingTable appointments={upcomingAppointments as any} limit={7} />
             </div>
 
             {/* Right rail */}
